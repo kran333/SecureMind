@@ -38,9 +38,9 @@ def encrypt_data_stage_1(in_data,split_index_list):
             stage1_enc_dict[count]=enc_data
             count += 1
     return stage1_enc_dict
-print encrypt_data_stage_1(input_data,split_size)
+stage1 =  encrypt_data_stage_1(input_data,split_size)
 
-def add_salt(salt_list):
+def add_salt(salt_list=[]):
     defult_salt =["$$$","%%%","&&&",'***','###','^^^']
     for x in defult_salt:
         salt_list.append(x)
@@ -49,7 +49,20 @@ def add_salt(salt_list):
         enc_salt[x] = hashlib.sha1(x).hexdigest()
     return random.choice(enc_salt.values())
 
-print add_salt(['^%&'])
+# print add_salt(['^%&'])
+
+def bind_encrypt_data_stage_1(enc_data_parts):
+    stage1_result = ''
+    for x in enc_data_parts:
+        stage1_result = stage1_result+x + add_salt()
+    return stage1_result
+s1 =  bind_encrypt_data_stage_1(stage1.values())
+
+def encrypt_data_stage_2(bind_enc_data_s1):
+    stage2_result = hashlib.sha224(bind_enc_data_s1.encode())
+    stage2_result = stage2_result.hexdigest()
+    return stage2_result
+print encrypt_data_stage_2(s1)
 
 # encrypted_data_stage_1 = enc_data_part_1 + random.choice(enc_salt.values()) + enc_data_part_2
 # encrypted_data_stage_2 = hashlib.sha224(encrypted_data_stage_1.encode())
