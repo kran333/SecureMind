@@ -1,12 +1,6 @@
-import mysql.connector
+import db_connect
 def get_salt():
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        passwd="root",
-        database="encrypt_data_pro",
-        auth_plugin='mysql_native_password'
-    )
+    mydb = db_connect.get_connection()
     salt = ''
     mycursor = mydb.cursor()
     mycursor.execute("SELECT enc_salt FROM salts ORDER BY RAND() LIMIT 1")
