@@ -1,26 +1,29 @@
-# from  Crypto.PublicKey import RSA
-#
-#
-# #Generate a public/ private key pair using 4096 bits key length (512 bytes)
-# new_key = RSA.generate(4096, e=65537)
-#
-# #The private key in PEM format
-# private_key = new_key.exportKey("PEM")
-#
-# #The public key in PEM Format
-# public_key = new_key.publickey().exportKey("PEM")
-#
-# print private_key
-# fd = open("private_key.pem", "wb")
-# fd.write(private_key)
-# fd.close()
-#
-# print public_key
-# fd = open("public_key.pem", "wb")
-# fd.write(public_key)
-# fd.close()
+from Cryptodome.PublicKey import RSA
+from Cryptodome.Cipher import PKCS1_OAEP
+# from Cryptodome.Signature import PKCS1_v1_5
+# from Cryptodome.Hash import SHA512, SHA384, SHA256, SHA, MD5
+from Cryptodome import Random
+# from base64 import b64encode, b64decode
+hash = "SHA-256"
+keysz = 1024
+msg = "this is the message"
+def newkeys(keysize):
+   random_generator = Random.new().read
+   key = RSA.generate(keysize, random_generator)
+   private, public = key, key.publickey()
+   return public, private
 
+keys = newkeys(keysz)
+for x in keys:
+   print x.publickey()
 
-li = [10,45,78,65,15,95]
-for x in range(len(li)):
-    print li[x]
+# def importKey(externKey):
+#    return RSA.importKey(externKey)
+#
+# def getpublickey(priv_key):
+#    return priv_key.publickey()
+#
+# def encrypt(message, pub_key):
+#    cipher = PKCS1_OAEP.new(pub_key)
+#    return cipher.encrypt(message)
+
