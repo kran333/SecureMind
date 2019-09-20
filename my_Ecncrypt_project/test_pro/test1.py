@@ -1,18 +1,13 @@
 import random
 def rabinMiller(num):
     s = num - 1
-    print 's : '+str(s)
     t = 0
     while s % 2 == 0:
         s = s // 2
-        print 's : '+str(s)
         t += 1
-        print 't : '+str(t)
     for trials in range(5):
         a = random.randrange(2, num - 1)
-        print 'a : '+str(a)
         v = pow(a, s, num)
-        print 'v :'+str(v)
         if v != 1:
             i = 0
             while v != (num - 1):
@@ -22,7 +17,6 @@ def rabinMiller(num):
                     i = i + 1
                     v = (v ** 2) % num
         return True
-print rabinMiller(63)
 
 def isPrime(num):
     if (num < 2):
@@ -50,5 +44,5 @@ def generateLargePrime(keysize=1024):
         num = random.randrange(2 ** (keysize - 1), 2 ** (keysize))
         if isPrime(num):
             return num
-# number = generateLargePrime()
-# print number
+number = generateLargePrime()
+print number
