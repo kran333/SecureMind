@@ -2,9 +2,11 @@ import view_module
 import controller_module
 import threading, time
 
-class main_controller():
+
+class main_controller(object):
     def __init__(self):
         pass
+
     def controller(self):
         option = view_module.menu_details()
         if option == 1:
@@ -19,8 +21,6 @@ class main_controller():
         elif option == 3:
             exit()
 
+
 obj1 = main_controller()
 obj1.controller()
-
-
-

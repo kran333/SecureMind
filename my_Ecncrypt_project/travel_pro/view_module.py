@@ -1,9 +1,8 @@
-
 def get_user_inputs():
     customer_name = input("Enter name: ")
     pickup_loc = input("Enter pickup location: ")
     drop_loc = input("Enter drop location :")
-    return customer_name, pickup_loc,drop_loc
+    return customer_name, pickup_loc, drop_loc
 
 
 def get_bill():

@@ -11,9 +11,11 @@ con = mysql.connector.connect(
 )
 db_cursor = con.cursor()
 
-class database_module():
+
+class DB_module(object):
     def __init__(self):
-        pass
+        self.data = []
+
     def get_cab_details(self):
         cab_list = []
         db_cursor.execute("select cab_id from cab_details")
@@ -22,7 +24,7 @@ class database_module():
                 cab_list.append(str(x))
         return cab_list
 
-    def get_avalible_cab(self,loc):
+    def get_avalible_cab(self, loc):
         avb_cab = ''
         db_cursor.execute("select cab_id from cab_status where c_status = 'F' ORDER BY update_timestamp desc limit 1")
         for db in db_cursor:
@@ -60,8 +62,3 @@ class database_module():
             return e
         finally:
             con.close()
-
-
-
-
-

@@ -1,9 +1,10 @@
-import database_module as db
 import time, threading
+from travel_pro import database_module
 
 lock = threading.Lock()
 
-class controller_module():
+
+class controller_module(object):
     def __init__(self):
         pass
 
@@ -49,18 +50,16 @@ class controller_module():
         return total_fair
 
     def get_cab(self):
-        cab_list = db.get_cab_details()
+        cab_list = database_module.get_cab_details()
         cab_status = "F"
         return cab_list[0]
 
     def check_cab_avaliability(self, curr_loc):
-        db_obj = db.database_module()
+        db_obj = database_module()
         cab_num = db_obj.get_avalible_cab(curr_loc)
         return cab_num
 
 
-
-
 obj = controller_module()
 print obj.check_cab_avaliability("A")
-
+# print obj.get_cab()
