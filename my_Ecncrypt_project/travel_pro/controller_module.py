@@ -49,13 +49,13 @@ class controller_module(object):
             total_fair = total_fair + extra_distance * base_fair
         return total_fair
 
-    def get_cab(self):
-        cab_list = database_module.get_cab_details()
-        cab_status = "F"
-        return cab_list[0]
+    # def get_cab(self):
+    #     cab_list = database_module.get_cab_details()
+    #     cab_status = "F"
+    #     return cab_list[0]
 
     def check_cab_avaliability(self, curr_loc):
-        db_obj = database_module()
+        db_obj = database_module.DB_module()
         cab_num = db_obj.get_avalible_cab(curr_loc)
         return cab_num
 
