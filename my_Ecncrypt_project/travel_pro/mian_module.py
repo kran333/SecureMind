@@ -5,20 +5,19 @@ import threading, time
 
 class main_controller(object):
     def __init__(self):
-        pass
+        self.option = view_module.menu_details()
 
     def controller(self):
-        option = view_module.menu_details()
-        if option == 1:
-            det = view_module.get_user_inputs()
-            distance = controller_module.get_distance(det[1], det[2])
-            threading.Thread(target=controller_module.suspen, args=(distance, det[0])).start()
+        if self.option == 1:
+            self.det = view_module.get_user_inputs()
+            self.control_obj = controller_module.controller_mod(self.det[0], self.det[1], self.det[2])
+            threading.Thread(target=self.control_obj.suspen).start()
             time.sleep(2)
             obj = main_controller()
             obj.controller()
-        elif option == 2:
+        elif self.option == 2:
             view_module.get_bill()
-        elif option == 3:
+        elif self.option == 3:
             exit()
 
 

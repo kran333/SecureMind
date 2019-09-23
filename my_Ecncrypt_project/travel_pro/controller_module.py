@@ -1,20 +1,31 @@
 import time, threading
-from travel_pro import database_module
-
+import database_module as db
 lock = threading.Lock()
 
 
-class controller_module(object):
-    def __init__(self):
-        pass
+class controller_mod(object):
+    def __init__(self, customer_name, pickup_point, drop_point):
+        self.customer_name = customer_name
+        self.pickup_point = pickup_point
+        self.drop_point = drop_point
+        self.cab_num = self.check_cab_avaliability()
+        if self.cab_num != '':
+            self.distance = self.get_distance(self.pickup_point, self.drop_point)
+            self.total_fair = self.get_fair(self.distance)
+        else:
+            print "NO cabs are avalible in your location...!"
+            exit()
 
-    def suspen(self, distance, cus_name):
+    def suspen(self):
         lock.acquire()
         speed = 80.00 / 3.6
-        distance = distance * 1000
+        distance = self.distance * 1000
         sus_time = (distance / speed) / 100
-        print cus_name + " your cab is Booked," + "it takes " + str(sus_time) + " sec. to reach the destination"
+        self.update_cab_status("R")
+        print self.customer_name + " your cab is Booked,"+" cab number = "+str(self.cab_num)+ " it takes " + str(sus_time) + " sec. to reach the destination"
         time.sleep(int(sus_time))
+        self.update_fair_details()
+        self.update_cab_status("F")
         lock.release()
 
     def get_distance(self, start_point, end_point):
@@ -34,7 +45,8 @@ class controller_module(object):
             c = a - b
         else:
             pass
-        return c * distance
+        dis = c * distance
+        return dis
 
     def get_fair(self, total_distance_traveled):
         base_fair_per_5km = 100.00
@@ -54,12 +66,18 @@ class controller_module(object):
     #     cab_status = "F"
     #     return cab_list[0]
 
-    def check_cab_avaliability(self, curr_loc):
-        db_obj = database_module.DB_module()
-        cab_num = db_obj.get_avalible_cab(curr_loc)
+    def check_cab_avaliability(self):
+        self.db_obj = db.DB_module()
+        cab_num = self.db_obj.get_avalible_cab(self.pickup_point)
         return cab_num
 
+    def update_cab_status(self, status):
+        res = self.db_obj.update_cab_curr_status(self.cab_num, status)
+        return res
 
-obj = controller_module()
-print obj.check_cab_avaliability("A")
-# print obj.get_cab()
+    def update_fair_details(self):
+        res = self.db_obj.update_fair_details(self.cab_num,self.customer_name,self.pickup_point,self.drop_point,self.distance,self.total_fair)
+        return res
+
+
+
