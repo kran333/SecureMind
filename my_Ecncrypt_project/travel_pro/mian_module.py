@@ -1,3 +1,6 @@
+#Author: Kranthi Kumar K
+#Date: 23/09/2019
+
 import view_module
 import controller_module
 import threading, time
@@ -9,9 +12,9 @@ class main_controller(object):
 
     def controller(self):
         if self.option == 1:
-            self.det = view_module.get_user_inputs()
-            self.control_obj = controller_module.controller_mod(self.det[0], self.det[1], self.det[2])
-            threading.Thread(target=self.control_obj.suspen).start()
+            det = view_module.get_user_inputs()
+            control_obj = controller_module.controller_mod(det[0], det[1], det[2])
+            threading.Thread(target=control_obj.suspen).start()
             time.sleep(2)
             obj = main_controller()
             obj.controller()

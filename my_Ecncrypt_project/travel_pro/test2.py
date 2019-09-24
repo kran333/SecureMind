@@ -52,7 +52,7 @@
 
 
 import threading
-import time
+# import time
 
 #
 # result = None
@@ -77,26 +77,90 @@ import time
 # print('The result is', result)
 #
 # main()
-lock = threading.Lock()
+# lock = threading.Lock()
 
 
-def maitain():
-    lock.acquire()
-    print "Start"
-    time.sleep(6)
-    print "End"
-    lock.release()
+# def maitain():
+#     lock.acquire()
+#     print "Start"
+#     time.sleep(6)
+#     print "End"
+#     lock.release()
+#
+#
+# def part2():
+#     for x in range(5):
+#         print "x : " + str(x)
+#
+#
+# def controller():
+#     t1 = threading.Thread(target=maitain)
+#     t1.start()
+#     part2()
+# controller()
 
 
-def part2():
-    for x in range(5):
-        print "x : " + str(x)
+from multiprocessing import Process,Lock
+import os
+import time
+
+# def info(title):
+#     print title
+#     print 'module name:', __name__
+#     if hasattr(os, 'getppid'):  # only available on Unix
+#         print 'parent process:', os.getppid()
+#     print 'process id:', os.getpid()
+#
+# def f(name):
+#     info('function f')
+#     print 'hello', name
+#
+# if __name__ == '__main__':
+#     info('main line')
+#     p = Process(target=f, args=('bob',))
+#     p.start()
+#     p.join()
 
 
-def controller():
-    t1 = threading.Thread(target=maitain)
-    t1.start()
-    part2()
+
+# def __init__(self, name):
+#     self.name = name
 
 
-controller()
+def printing_data(names, locks):
+    locks.acquire()
+    print "Printing strated "
+    time.sleep(5.00)
+    print names
+    time.sleep(10.00)
+    locks.release()
+
+
+def main_pro(name):
+    Process(target=printing_data, args=(name, lock)).start()
+
+
+if __name__ == '__main__':
+    lock = Lock()
+    names = ["kranthi","kumar"]
+
+    # for x in names:
+        # print x
+    Process(target= main_pro, args=(names)).start()
+
+
+
+
+
+# def f(l, i):
+#     l.acquire()
+#     print 'hello world', i
+#     l.release()
+#
+# if __name__ == '__main__':
+#     lock = Lock()
+#
+#     for num in range(10):
+#         Process(target=f, args=(lock, num)).start()
+
+

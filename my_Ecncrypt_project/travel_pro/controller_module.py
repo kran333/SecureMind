@@ -1,3 +1,6 @@
+#Author: Kranthi Kumar K
+#Date: 23/09/2019
+
 import time, threading
 import database_module as db
 lock = threading.Lock()
@@ -20,7 +23,7 @@ class controller_mod(object):
         lock.acquire()
         speed = 80.00 / 3.6
         distance = self.distance * 1000
-        sus_time = (distance / speed) / 100
+        sus_time = (distance / speed) / 10
         self.update_cab_status("R")
         print self.customer_name + " your cab is Booked,"+" cab number = "+str(self.cab_num)+ " it takes " + str(sus_time) + " sec. to reach the destination"
         time.sleep(int(sus_time))

@@ -1,3 +1,6 @@
+#Author: Kranthi Kumar K
+#Date: 23/09/2019
+
 def get_user_inputs():
     customer_name = input("Enter name: ")
     pickup_loc = input("Enter pickup location: ")

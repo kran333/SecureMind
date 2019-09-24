@@ -1,3 +1,6 @@
+#Author: Kranthi Kumar K
+#Date: 23/09/2019
+
 import mysql.connector
 
 con = mysql.connector.connect(
@@ -33,7 +36,7 @@ class DB_module(object):
         avb_cab = ''
         try:
             db_cursor.execute(
-                "select cab_id from cab_status where c_status = 'F' ORDER BY update_timestamp desc limit 1")
+                "select cab_id from cab_status where c_status = 'F' ORDER BY update_timestamp limit 1")
             res = db_cursor.fetchall()
             for db in res:
                 for x in db:
