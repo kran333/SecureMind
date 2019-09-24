@@ -5,21 +5,30 @@ import view_module
 import controller_module
 import threading, time
 
-
 class main_controller(object):
     def __init__(self):
         self.option = view_module.menu_details()
+        self.control_obj = controller_module.controller_mod()
 
     def controller(self):
         if self.option == 1:
             det = view_module.get_user_inputs()
-            control_obj = controller_module.controller_mod(det[0], det[1], det[2])
-            threading.Thread(target=control_obj.suspen).start()
+            arg = (det[0], det[1], det[2])
+            threading.Thread(target=self.control_obj.moniter, args= arg).start()
             time.sleep(2)
             obj = main_controller()
             obj.controller()
         elif self.option == 2:
-            view_module.get_bill()
+            cab = view_module.bill_details()
+            if cab == "":
+                res = self.control_obj.get_total_bill()
+            else:
+                res = self.control_obj.get_total_bill(cab=cab)
+            for a in res:
+                for x in a:
+                    print "   " + str(x),
+                print
+            self.controller()
         elif self.option == 3:
             exit()
 

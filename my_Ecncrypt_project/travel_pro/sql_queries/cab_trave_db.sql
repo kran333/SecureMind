@@ -27,9 +27,13 @@ insert into cab_status values("cab-3","F",now(),now());
 insert into cab_status values("cab-4","F",now(),now());
 
 
-select cab_id from travel_cab_db.cab_status where c_status = "F" ORDER BY update_timestamp desc limit 1;
+select cab_id from travel_cab_db.cab_status where c_status = "R" ORDER BY update_timestamp desc limit 1;
+
+select (case when cab_id = "" then 'NA' else cab_id end) as cab_id from cab_status where c_status = 'R' ORDER BY update_timestamp limit 1;
 
 
+
+select  coalesce(cab_id,"NA") as cab_id from cab_status where c_status = 'R' ORDER BY update_timestamp limit 1;
 
 insert into travel_cab_db.cab_status values("cab-4","R",
 (select update_timestamp from travel_cab_db.cab_status where cab_id = "cab-4" order by update_timestamp desc limit 1),
@@ -67,7 +71,11 @@ desc cabs_fair;
 
 select * from cabs_fair;
 
+select cab_id,customer_id,price from cabs_fair where cab_id = "cab-4" GROUP BY cab_id,customer_id,price ORDER BY cab_id ;
+
 select * from cab_status; 
+
+
 
 
 

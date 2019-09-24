@@ -81,7 +81,25 @@ class DB_module(object):
         #     db_cursor.close()
         #     con.close()
         return res
+    def get_price_from_db(self, cab_id = ''):
+        try:
+            q1 = """ select cab_id,customer_id,price from cabs_fair GROUP BY cab_id,customer_id,price ORDER BY cab_id """
+            q2 = " select cab_id,customer_id,price from cabs_fair where cab_id = %(cab_id)s GROUP BY cab_id,customer_id,price ORDER BY cab_id "
+            if cab_id == '':
+                db_cursor.execute(q1)
+                res = db_cursor.fetchall()
+                return res
+            else:
+                args = {'cab_id':cab_id}
+                db_cursor.execute(q2,args)
+                res = db_cursor.fetchall()
+                return res
+        except Exception as e:
+            return e
 
 # obj = DB_module()
 # print obj.update_cab_curr_status("cab-3","F")
 # print obj.update_fair_details("cab-1","ram","A","C",16.00,160.00)
+# print obj.get_avalible_cab("A")
+# lis =  obj.get_price_from_db(cab_id="cab-1")
+# lis =  obj.get_price_from_db()
