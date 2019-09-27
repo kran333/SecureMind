@@ -2,7 +2,7 @@
 #Date: 23/09/2019
 
 import mysql.connector
-
+import pandas as pd
 con = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -27,30 +27,21 @@ class DB_module(object):
             return cab_list
         except Exception as e:
             print e
-        # finally:
-        #     db_cursor.close()
-        #     con.close()
-
 
     def get_avalible_cab(self, loc):
-        avb_cab = ''
+        query1 = "select cab_id,current_location from travel_cab_db.cab_status where c_status = 'F' and current_location = %(curr_loc)s ORDER BY update_timestamp desc limit 1"
+        query2 = "select cab_id,current_location from cab_status where c_status = 'F' ORDER BY update_timestamp limit 1"
+        args = {"curr_loc":loc}
         try:
-            db_cursor.execute(
-                "select cab_id from cab_status where c_status = 'F' ORDER BY update_timestamp limit 1")
-            res = db_cursor.fetchall()
-            for db in res:
-                for x in db:
-                    avb_cab = str(x)
-            if avb_cab == '':
-                return "false"
+            df1 = pd.read_sql_query(query1, params=args, con=con)
+            if df1.empty:
+                df2 = pd.read_sql_query(query2, con=con)
+                return df2
             else:
-                return avb_cab
+                return df1
+
         except Exception as e:
             print e
-        # finally:
-        #     db_cursor.close()
-        #     con.close()
-
 
     def update_fair_details(self, cab_id, cus_id, pickup_loc, drop_loc, distance, price):
         res = False
@@ -62,44 +53,36 @@ class DB_module(object):
             res = True
         except Exception as e:
             print e
-        # finally:
-        #     db_cursor.close()
-        #     con.close()
         return res
 
-    def update_cab_curr_status(self, cab_id, curr_state):
+    def update_cab_curr_status(self, cab_id, curr_state, curr_loc):
         res = False
         try:
-            q1 = """update cab_status set c_status = %s,update_timestamp = now() where cab_id = %s """
-            arg = (curr_state, cab_id)
+            q1 = """update cab_status set c_status = %(status)s,current_location = %(curr_loc)s,update_timestamp = now() where cab_id = %(cab_id)s """
+            arg = {"status":curr_state,"curr_loc":curr_loc,"cab_id":cab_id}
             db_cursor.execute(q1, arg)
             con.commit()
             res= True
         except Exception as e:
             print str(e)
-        # finally:
-        #     db_cursor.close()
-        #     con.close()
         return res
+
     def get_price_from_db(self, cab_id = ''):
         try:
             q1 = """ select cab_id,customer_id,price from cabs_fair GROUP BY cab_id,customer_id,price ORDER BY cab_id """
             q2 = " select cab_id,customer_id,price from cabs_fair where cab_id = %(cab_id)s GROUP BY cab_id,customer_id,price ORDER BY cab_id "
             if cab_id == '':
-                db_cursor.execute(q1)
-                res = db_cursor.fetchall()
+                res = pd.read_sql_query(q1,con)
                 return res
             else:
                 args = {'cab_id':cab_id}
-                db_cursor.execute(q2,args)
-                res = db_cursor.fetchall()
+                res = pd.read_sql_query(q2,params=args,con=con)
                 return res
         except Exception as e:
             return e
 
-# obj = DB_module()
-# print obj.update_cab_curr_status("cab-3","F")
-# print obj.update_fair_details("cab-1","ram","A","C",16.00,160.00)
-# print obj.get_avalible_cab("A")
-# lis =  obj.get_price_from_db(cab_id="cab-1")
-# lis =  obj.get_price_from_db()
+    def close_db_module(self):
+        if db_cursor.close() and con.close:
+            return True
+        else:
+            return False

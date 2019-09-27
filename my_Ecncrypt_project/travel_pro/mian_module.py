@@ -4,13 +4,14 @@
 import view_module
 import controller_module
 import threading, time
+from tabulate import tabulate
 
 class main_controller(object):
     def __init__(self):
-        self.option = view_module.menu_details()
         self.control_obj = controller_module.controller_mod()
 
     def controller(self):
+        self.option = view_module.menu_details()
         if self.option == 1:
             det = view_module.get_user_inputs()
             arg = (det[0], det[1], det[2])
@@ -24,14 +25,16 @@ class main_controller(object):
                 res = self.control_obj.get_total_bill()
             else:
                 res = self.control_obj.get_total_bill(cab=cab)
-            for a in res:
-                for x in a:
-                    print "   " + str(x),
-                print
+            print(tabulate(res, headers='keys', tablefmt='psql'))
             self.controller()
         elif self.option == 3:
-            exit()
+            res = self.control_obj.close_control_module()
+            if res == True:
+                exit()
+            else:
+                print "Process is running in back end"
+        return
 
-
-obj1 = main_controller()
-obj1.controller()
+if __name__ == '__main__':
+    obj1 = main_controller()
+    obj1.controller()

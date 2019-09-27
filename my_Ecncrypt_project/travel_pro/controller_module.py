@@ -15,7 +15,6 @@ class controller_mod(object):
         self.pickup_point = pickup_point
         self.drop_point = drop_point
         self.cab_num = self.check_cab_avaliability()
-
         if self.cab_num == False:
             print "NO cabs are avalible in your location...!"
             exit()
@@ -23,17 +22,19 @@ class controller_mod(object):
             self.distance = self.get_distance(self.pickup_point, self.drop_point)
             self.total_fair = self.get_fair(self.distance)
             self.suspen()
-
+    def get_suspend_time(self, distance):
+        speed = 80.00 / 3.6
+        distance = distance * 1000
+        sus_time = (distance / speed) / 10
+        return sus_time
     def suspen(self):
         # lock.acquire()
-        speed = 80.00 / 3.6
-        distance = self.distance * 1000
-        sus_time = (distance / speed) / 10
-        self.update_cab_status("R")
-        print self.customer_name + " your cab is Booked,"+" cab number = "+str(self.cab_num)+ " it takes " + str(sus_time) + " sec. to reach the destination"
+        sus_time = self.get_suspend_time(self.distance)
+        self.update_cab_status(cab_num=self.cab_num, status="R", loc=self.pickup_point)
+        print str(self.customer_name) + " your cab is Booked,"+" cab number = "+str(self.cab_num)+" it takes " + str(sus_time)+ " sec. to reach the destination"
         time.sleep(int(sus_time))
         self.update_fair_details()
-        self.update_cab_status("F")
+        self.update_cab_status(cab_num=self.cab_num, status="F", loc=self.drop_point)
         # lock.release()
 
     def get_distance(self, start_point, end_point):
@@ -74,20 +75,28 @@ class controller_mod(object):
         return bill
 
     def check_cab_avaliability(self):
-        # self.db_obj = db.DB_module()
-        cab_num = self.db_obj.get_avalible_cab(self.pickup_point)
-        if cab_num == 'false':
+        res = self.db_obj.get_avalible_cab(self.pickup_point)
+        if res.empty:
             return False
         else:
-            return cab_num
-
-    def update_cab_status(self, status):
-        res = self.db_obj.update_cab_curr_status(self.cab_num, status)
+            if str(res['current_location'][0]) == self.pickup_point:
+                return str(res['cab_id'][0])
+            else:
+                cab_dis = self.get_distance(str(res['current_location'][0]),self.pickup_point)
+                wait_time = self.get_suspend_time(cab_dis)
+                print self.customer_name + " your cab will be arriving soon in " + str(wait_time) + " Sec.."
+                time.sleep(float(wait_time+2))
+                self.update_cab_status(cab_num= str(res['cab_id'][0]), status='F', loc=self.pickup_point)
+                return self.check_cab_avaliability()
+    def update_cab_status(self, cab_num, status, loc):
+        res = self.db_obj.update_cab_curr_status(cab_num, status,loc)
         return res
 
     def update_fair_details(self):
         res = self.db_obj.update_fair_details(self.cab_num,self.customer_name,self.pickup_point,self.drop_point,self.distance,self.total_fair)
         return res
 
+    def close_control_module(self):
+        return self.db_obj.close_db_module()
 
 
