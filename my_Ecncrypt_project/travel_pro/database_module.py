@@ -1,5 +1,5 @@
 #Author: Kranthi Kumar K
-#Date: 23/09/2019
+#Date: 30/09/2019
 
 import mysql.connector
 import pandas as pd
@@ -30,16 +30,11 @@ class DB_module(object):
 
     def get_avalible_cab(self, loc):
         query1 = "select cab_id,current_location from travel_cab_db.cab_status where c_status = 'F' and current_location = %(curr_loc)s ORDER BY update_timestamp desc limit 1"
-        query2 = "select cab_id,current_location from cab_status where c_status = 'F' ORDER BY update_timestamp limit 1"
-        args = {"curr_loc":loc}
         try:
-            df1 = pd.read_sql_query(query1, params=args, con=con)
-            if df1.empty:
-                df2 = pd.read_sql_query(query2, con=con)
-                return df2
-            else:
+            for x in loc:
+                args = {"curr_loc": x}
+                df1 = pd.read_sql_query(sql=query1, params=args, con=con)
                 return df1
-
         except Exception as e:
             print e
 
@@ -55,11 +50,11 @@ class DB_module(object):
             print e
         return res
 
-    def update_cab_curr_status(self, cab_id, curr_state, curr_loc):
+    def update_cab_curr_status(self, cab_id, curr_state, curr_loc, book_status):
         res = False
         try:
-            q1 = """update cab_status set c_status = %(status)s,current_location = %(curr_loc)s,update_timestamp = now() where cab_id = %(cab_id)s """
-            arg = {"status":curr_state,"curr_loc":curr_loc,"cab_id":cab_id}
+            q1 = """update cab_status set c_status = %(status)s,current_location = %(curr_loc)s,update_timestamp = now(),booking_status = %(book_status)s where cab_id = %(cab_id)s """
+            arg = {"status":curr_state,"curr_loc":curr_loc,"cab_id":cab_id, "book_status":book_status}
             db_cursor.execute(q1, arg)
             con.commit()
             res= True
@@ -69,14 +64,22 @@ class DB_module(object):
 
     def get_price_from_db(self, cab_id = ''):
         try:
-            q1 = """ select cab_id,customer_id,price from cabs_fair GROUP BY cab_id,customer_id,price ORDER BY cab_id """
+            q1 = """SELECT cf.cab_id as CAB_ID,cf.customer_id as CUSTOMER_ID,cd.customer_name as CUSTOMER_NAME,loc1.location_name as PICK_UP_LOCATION,loc2.location_name as DROP_LOCATION, 
+                    cf.date_of_booking as DATE_OF_BOOKING,cf.no_of_km as TOTAL_DISTANCE,cf.price as TOTAL_FAIR
+                    from cabs_fair cf inner join customer_details cd on cf.customer_id = cd.customer_id inner join locations loc1 on cf.pickup_loc = loc1.location_code
+                    inner join locations loc2 on cf.drop_loc = loc2.location_code ORDER BY cf.cab_id """
+            # q1 = """ select cab_id,customer_id,price from cabs_fair GROUP BY cab_id,customer_id,price ORDER BY cab_id """
             q2 = " select cab_id,customer_id,price from cabs_fair where cab_id = %(cab_id)s GROUP BY cab_id,customer_id,price ORDER BY cab_id "
+            q2 = """SELECT cf.cab_id as CAB_ID,cf.customer_id as CUSTOMER_ID,cd.customer_name as CUSTOMER_NAME,loc1.location_name as PICK_UP_LOCATION,loc2.location_name as DROP_LOCATION, 
+                    cf.date_of_booking as DATE_OF_BOOKING,cf.no_of_km as TOTAL_DISTANCE,cf.price as TOTAL_FAIR
+                    from cabs_fair cf inner join customer_details cd on cf.customer_id = cd.customer_id inner join locations loc1 on cf.pickup_loc = loc1.location_code
+                    inner join locations loc2 on cf.drop_loc = loc2.location_code where cf.cab_id = %(cab_id)s ORDER BY cf.customer_id"""
             if cab_id == '':
                 res = pd.read_sql_query(q1,con)
                 return res
             else:
                 args = {'cab_id':cab_id}
-                res = pd.read_sql_query(q2,params=args,con=con)
+                res = pd.read_sql_query(sql=q2, params=args, con=con)
                 return res
         except Exception as e:
             return e
@@ -86,3 +89,31 @@ class DB_module(object):
             return True
         else:
             return False
+    def get_user_name(self, customer_id):
+        try:
+            query = " select customer_id,customer_name from customer_details WHERE customer_id = %(c_id)s "
+            args = {"c_id": customer_id}
+            res = pd.read_sql_query(sql=query, con=con, params=args)
+            return res
+        except Exception as e:
+            return e
+    def get_locations(self):
+        try:
+            query = "SELECT location_code from locations ORDER BY location_code"
+            locations = pd.read_sql_query(sql=query,con=con)
+            return locations
+        except Exception as e:
+            return e
+    def check_avalible_free_cabs(self):
+        query = "SELECT cab_id,current_location from cab_status where c_status = 'F' and booking_status = 'FREE'"
+        cabs_dict = {}
+        try:
+            cabs = pd.read_sql_query(sql=query, con=con)
+            for x in range(len(cabs.index)):
+                cabs_dict[str(cabs["cab_id"][x])] = str(cabs["current_location"][x])
+            return cabs_dict
+        except Exception as e:
+            return e
+
+# obj = DB_module()
+# print obj.check_avalible_free_cabs()

@@ -87,11 +87,9 @@ SELECT * from customer_details;
 
 select cab_id,customer_id,price from cabs_fair where cab_id = "cab-2" GROUP BY cab_id,customer_id,price ORDER BY cab_id ;
 
-update travel_cab_db.cab_status set c_status = "F" ,current_location = "B",
- update_timestamp = now() where cab_id = "cab-1";
 
 
-select * from cab_status; 
+
 
 alter table cab_status
 add COLUMN current_location VARCHAR(45) not null DEFAULT "A";
@@ -122,19 +120,58 @@ AUTO_INCREMENT = 101;
 
 desc customer_details;
 
-select * from customer_details;
-select * from cabs_fair;
+
 
 select cd.customer_id,cd.customer_name,cf.cab_id,cf.pickup_loc,cf.drop_loc,cf.date_of_booking,cf.price from
 customer_details cd inner JOIN cabs_fair cf on cd.customer_id = cf.customer_id;
 
 
 
+select customer_id,customer_name from customer_details WHERE customer_id = 155;
+
+select * from cab_status; 
+
+alter table cab_status
+ADD COLUMN booking_status VARCHAR(20) DEFAULT "FREE" not null check(booking_status in ('FREE', "BLOCK"));
+
+create table locations(
+location_code VARCHAR(10) PRIMARY key,
+location_name VARCHAR(50) not null
+);
+
+SELECT count(*) from locations ORDER BY location_code;
+
+SELECT location_code from locations ORDER BY location_code;
+
+select cab_id,current_location from cab_status where c_status = "F";
+
+update travel_cab_db.cab_status set c_status = "F" ,current_location = "J",booking_status = "FREE",
+ update_timestamp = now() where cab_id = "cab-4";
+ 
+ desc cab_status;
+
+SELECT cab_id,current_location from cab_status where c_status = 'F' and booking_status = 'FREE';
 
 
 
+----------------------------------------------------------------------------------------------------------------------------
+select * from cab_status ;
+select * from customer_details;
+select * from cabs_fair;
+SELECT * from locations ORDER BY location_code;
+----------------------------------------------------------------------------------------------------------------------------
+
+SELECT cf.cab_id as CAB_ID,cf.customer_id as CUSTOMER_ID,cd.customer_name as CUSTOMER_NAME,loc1.location_name as PICK_UP_LOC,loc2.location_name as DROP_LOC, 
+cf.date_of_booking as DATE_OF_BOOKING,cf.no_of_km as TOTAL_DISTANCE,cf.price as TOTAL_FAIR
+from cabs_fair cf inner join customer_details cd on cf.customer_id = cd.customer_id inner join locations loc1 on cf.pickup_loc = loc1.location_code
+inner join locations loc2 on cf.drop_loc = loc2.location_code ORDER BY cf.cab_id;
 
 
+
+SELECT cf.cab_id as CAB_ID,cf.customer_id as CUSTOMER_ID,cd.customer_name as CUSTOMER_NAME,loc1.location_name as PICK_UP_LOC,loc2.location_name as DROP_LOC, 
+cf.date_of_booking as DATE_OF_BOOKING,cf.no_of_km as TOTAL_DISTANCE,cf.price as TOTAL_FAIR
+from cabs_fair cf inner join customer_details cd on cf.customer_id = cd.customer_id inner join locations loc1 on cf.pickup_loc = loc1.location_code
+inner join locations loc2 on cf.drop_loc = loc2.location_code where cf.cab_id = "cab-1" ORDER BY cf.customer_id;
 
 
 

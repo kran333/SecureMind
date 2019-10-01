@@ -1,9 +1,9 @@
 #Author: Kranthi Kumar K
-#Date: 23/09/2019
+#Date: 30/09/2019
 
 import view_module
 import controller_module
-import threading, time
+import threading,time
 from tabulate import tabulate
 
 class main_controller(object):
@@ -14,8 +14,8 @@ class main_controller(object):
         self.option = view_module.menu_details()
         if self.option == 1:
             det = view_module.get_user_inputs()
-            arg = (det[0], det[1], det[2])
-            threading.Thread(target=self.control_obj.moniter, args= arg).start()
+            arg = (det[0], det[1], det[2], det[3])
+            threading.Thread(target=self.control_obj.moniter, args=arg).start()
             time.sleep(2)
             obj = main_controller()
             obj.controller()
@@ -34,6 +34,8 @@ class main_controller(object):
             else:
                 print "Process is running in back end"
         return
+    def check_user(self, cus_id):
+       return self.control_obj.check_user_name(cus_id)
 
 if __name__ == '__main__':
     obj1 = main_controller()

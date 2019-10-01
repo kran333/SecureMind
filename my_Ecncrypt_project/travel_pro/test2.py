@@ -127,30 +127,30 @@ import time
 #     self.name = name
 
 
-def printing_data(names, locks):
-    locks.acquire()
-    print "Printing strated "
-    time.sleep(5.00)
-    print names
-    time.sleep(10.00)
-    locks.release()
-
-
-def main_pro(name):
-    Process(target=printing_data, args=(name, lock)).start()
-
-
-if __name__ == '__main__':
-    lock = Lock()
-    names = ["kranthi","kumar"]
-
-    # for x in names:
-        # print x
-    Process(target= main_pro, args=(names)).start()
-
-
-
-
+# def printing_data(names, locks):
+#     locks.acquire()
+#     print "Printing strated "
+#     time.sleep(5.00)
+#     print names
+#     time.sleep(10.00)
+#     locks.release()
+#
+#
+# def main_pro(name):
+#     Process(target=printing_data, args=(name, lock)).start()
+#
+#
+# if __name__ == '__main__':
+#     lock = Lock()
+#     names = ["kranthi","kumar"]
+#
+#     for x in names:
+#         print x
+    # Process(target= main_pro, args=(names)).start()
+#
+#
+#
+#
 
 # def f(l, i):
 #     l.acquire()
@@ -163,4 +163,19 @@ if __name__ == '__main__':
 #     for num in range(10):
 #         Process(target=f, args=(lock, num)).start()
 
-
+# dict = {"A":10,"B":5,"c":8,'d':8}
+# li = []
+# for value in dict.values():
+#     li.append(value)
+# li = sorted(li)
+# dict_min ={}
+# for key, value in dict.items():
+#     if li[0] == value:
+#         dict_min[key] = value
+# print dict_min
+# val = ""
+# for key, value in dict.items():
+#     if value == 5:
+#         print type(key)
+#         val = str(key)
+# print val
