@@ -1,16 +1,21 @@
 #Author: Kranthi Kumar K
 #Date: 30/09/2019
-
+import logging
 import view_module
 import controller_module
 import threading,time
 from tabulate import tabulate
 
+logging.basicConfig(filename="travel_log_file.log", format='%(asctime)s %(message)s', filemode='w')
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 class main_controller(object):
     def __init__(self):
+        logger.info("Creation of controller_module object in controller_module.py ")
         self.control_obj = controller_module.controller_mod()
 
     def controller(self):
+        logger.info("calling view module's menu details method.")
         self.option = view_module.menu_details()
         if self.option == 1:
             det = view_module.get_user_inputs()
@@ -38,5 +43,7 @@ class main_controller(object):
        return self.control_obj.check_user_name(cus_id)
 
 if __name__ == '__main__':
+    logger.debug("Start of the Program")
     obj1 = main_controller()
+    logger.info("calling controller function")
     obj1.controller()
