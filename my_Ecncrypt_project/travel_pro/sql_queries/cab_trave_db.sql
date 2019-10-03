@@ -155,6 +155,7 @@ SELECT cab_id,current_location from cab_status where c_status = 'F' and booking_
 
 
 ----------------------------------------------------------------------------------------------------------------------------
+show tables;
 select * from cab_status ;
 select * from customer_details;
 select * from cabs_fair;
@@ -172,6 +173,61 @@ SELECT cf.cab_id as CAB_ID,cf.customer_id as CUSTOMER_ID,cd.customer_name as CUS
 cf.date_of_booking as DATE_OF_BOOKING,cf.no_of_km as TOTAL_DISTANCE,cf.price as TOTAL_FAIR
 from cabs_fair cf inner join customer_details cd on cf.customer_id = cd.customer_id inner join locations loc1 on cf.pickup_loc = loc1.location_code
 inner join locations loc2 on cf.drop_loc = loc2.location_code where cf.cab_id = "cab-1" ORDER BY cf.customer_id;
+----------------------------------------------------------------------------------------------------------------------------
+
+CREATE table location_distance(
+start_loc VARCHAR(10) not null,end_loc varchar(10) not null, distance FLOAT not NULL
+);
+SELECT * FROM location_distance;
+SELECT * from location_distance where start_loc = 'Z' and end_loc = 'J';
+
+
+
+insert into location_distance values('A','C',5.0),('A','G',3.0),('A','E',3.0),('A','P',5.0);
+insert into location_distance values('B','Z',4.0),('B','H',2.0),('B','I',9.0);
+insert into location_distance values('C','F',4.0),('C','R',6.0),('C','A',5.0),('C','G',3.0),('C','Z',4.0),('C','L',4.0);
+insert into location_distance values('D','J',5.0),('D','L',5.0),('D','M',4.0),('D','Z',7.0);
+insert into location_distance values('E','A',3.0),('E','Z',8.0),('E','K',2.0),('E','Q',15.0),('E','H',10.0);
+insert into location_distance values('F','C',4.0),('F','R',8.0);
+insert into location_distance values('G','A',3.0),('G','C',3.0),('G','Z',1.0);
+insert into location_distance values('H','E',10.0),('H','B',2.0),('H','0',3.0);
+insert into location_distance values('I','B',9.0),('I','O',8.0),('I','Q',6.0),('I','T',8.0),('I','J',6.0);
+insert into location_distance values('J','D',5.0),('J','I',6.0),('J','N',5.0);
+insert into location_distance values('K','E',2.0),('K','X',4.0),('K','O',6.0);
+insert into location_distance values('L','C',4.0),('L','Z',7.0),('L','D',5.0),('L','W',11.0);
+insert into location_distance values('M','D',4.0),('M','U',8.0);
+insert into location_distance values('N','U',1.0),('N','J',5.0),('N','T',6.0);
+insert into location_distance values('O','K',6.0),('O','S',2.0),('O','I',8.0),('O','H',3.0);
+insert into location_distance values('P','A',5.0),('P','X',6.0);
+insert into location_distance values('Q','I',6.0),('Q','E',15.0),('Q','S',4.0),('Q','Y',3.0);
+insert into location_distance values('R','F',8.0),('R','C',6.0);
+insert into location_distance values('S','X',4.0),('S','O',6.0),('S','Q',4.0),('S','Y',4.0);
+insert into location_distance values('T','I',8.0),('T','N',6.0);
+insert into location_distance values('U','M',8.0),('U','V',2.0),('U','N',1.0);
+insert into location_distance values('V','W',16.0),('V','U',2.0);
+insert into location_distance values('W','L',11.0),('W','V',16.0);
+insert into location_distance values('X','P',6.0),('X','K',4.0),('X','S',4.0);
+insert into location_distance values('Y','S',4.0),('Y','Q',3.0);
+insert into location_distance values('Z','G',1.0),('Z','C',4.0),('Z','L',7.0),('Z','D',7.0),('Z','B',4.0),('Z','E',8.0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

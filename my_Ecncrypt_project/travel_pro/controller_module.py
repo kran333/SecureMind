@@ -136,6 +136,12 @@ class controller_mod(object):
         for x in range(locations.size):
             locations_list.append(str(locations["location_code"][x]))
         return locations_list
+    def get_loc_distance(self):
+        data = self.db_obj.get_location_distances()
+        list = []
+        for x in data.values:
+            list.append(tuple(x))
+        return list
 
 # obj = controller_mod()
 # print obj.check_cab_avaliability()

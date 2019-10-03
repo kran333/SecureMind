@@ -3,6 +3,7 @@
 
 import mysql.connector
 import pandas as pd
+import re
 con = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -68,8 +69,6 @@ class DB_module(object):
                     cf.date_of_booking as DATE_OF_BOOKING,cf.no_of_km as TOTAL_DISTANCE,cf.price as TOTAL_FAIR
                     from cabs_fair cf inner join customer_details cd on cf.customer_id = cd.customer_id inner join locations loc1 on cf.pickup_loc = loc1.location_code
                     inner join locations loc2 on cf.drop_loc = loc2.location_code ORDER BY cf.cab_id """
-            # q1 = """ select cab_id,customer_id,price from cabs_fair GROUP BY cab_id,customer_id,price ORDER BY cab_id """
-            q2 = " select cab_id,customer_id,price from cabs_fair where cab_id = %(cab_id)s GROUP BY cab_id,customer_id,price ORDER BY cab_id "
             q2 = """SELECT cf.cab_id as CAB_ID,cf.customer_id as CUSTOMER_ID,cd.customer_name as CUSTOMER_NAME,loc1.location_name as PICK_UP_LOCATION,loc2.location_name as DROP_LOCATION, 
                     cf.date_of_booking as DATE_OF_BOOKING,cf.no_of_km as TOTAL_DISTANCE,cf.price as TOTAL_FAIR
                     from cabs_fair cf inner join customer_details cd on cf.customer_id = cd.customer_id inner join locations loc1 on cf.pickup_loc = loc1.location_code
@@ -114,6 +113,32 @@ class DB_module(object):
             return cabs_dict
         except Exception as e:
             return e
+    def get_location_distances(self):
+        try:
+            query = "SELECT * FROM location_distance"
+            data = pd.read_sql_query(sql=query, con=con)
+            # list = []
+            # for x in data.values:
+            #     list.append(tuple(x))
+            return data
+        except Exception as e:
+            return e
+
 
 # obj = DB_module()
-# print obj.check_avalible_free_cabs()
+# data = obj.get_location_distances()
+# string_tuple_list = [tuple(map(str, eachTuple)) for eachTuple in data]
+# final_li = []
+# for tup in string_tuple_list:
+#     li = []
+#     for string in tup:
+#         if string.isdigit():
+#             dig = float(string)
+#             print dig
+#             li.append(dig)
+#         else:
+#             li.append(string)
+#         t = tuple(li)
+#     final_li.append(t)
+# print final_li
+#
