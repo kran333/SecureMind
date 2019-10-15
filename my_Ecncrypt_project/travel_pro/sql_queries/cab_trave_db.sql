@@ -178,8 +178,8 @@ inner join locations loc2 on cf.drop_loc = loc2.location_code where cf.cab_id = 
 CREATE table location_distance(
 start_loc VARCHAR(10) not null,end_loc varchar(10) not null, distance FLOAT not NULL
 );
-SELECT * FROM location_distance;
-SELECT * from location_distance where start_loc = 'Z' and end_loc = 'J';
+SELECT * FROM location_distance ORDER BY start_loc;
+
 
 
 

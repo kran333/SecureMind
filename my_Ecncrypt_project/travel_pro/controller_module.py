@@ -3,6 +3,7 @@
 
 import time, threading
 import database_module as db
+import path
 lock = threading.Lock()
 
 
@@ -39,24 +40,10 @@ class controller_mod(object):
         # lock.release()
 
     def get_distance(self, start_point, end_point):
-        distance = 15
-        a, b, c = 0, 0, 0
-        locations = self.get_locations()
-        for x in range(len(locations)):
-            if start_point.upper() == locations[x]:
-                a = x
-            elif end_point.upper() == locations[x]:
-                b = x
-            else:
-                pass
-        if a < b:
-            c = b - a
-        elif b < a:
-            c = a - b
-        else:
-            pass
-        dis = c * distance
-        return dis
+        locations_list = self.get_loc_distance()
+        path_dict = path.get_distance_calculator(locations_list, start_point, end_point)
+        print path_dict
+        return path_dict['distance']
 
     def get_fair(self, total_distance_traveled):
         base_fair_per_5km = 100.00
@@ -143,5 +130,5 @@ class controller_mod(object):
             list.append(tuple(x))
         return list
 
-# obj = controller_mod()
-# print obj.check_cab_avaliability()
+obj = controller_mod()
+obj.get_distance("S","J")

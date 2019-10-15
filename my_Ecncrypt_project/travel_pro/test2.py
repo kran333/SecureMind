@@ -51,7 +51,7 @@
 # controller()
 
 
-import threading
+# import threading
 # import time
 
 #
@@ -100,9 +100,9 @@ import threading
 # controller()
 
 
-from multiprocessing import Process,Lock
-import os
-import time
+# from multiprocessing import Process,Lock
+# import os
+# import time
 
 # def info(title):
 #     print title
@@ -179,3 +179,101 @@ import time
 #         print type(key)
 #         val = str(key)
 # print val
+
+
+
+# def sum(x, y):
+#   """Returns arg1 value add to arg2 value."""
+#   return x+y
+#   return sum.__doc__
+#
+# print sum(10, 7)
+# def one():
+#   return "one function is executed"
+#
+# def two():
+#   return "two function is executed"
+#
+# def swithch_case(arg):
+#   switch = {
+#     1:one,
+#     2:two
+#   }
+#   fun = switch.get(arg,lambda :"invalid")
+#   return fun()
+#
+# print swithch_case(3)
+
+
+# x= 17
+# y = 15
+# print "x is greater" if x > y else "y is greater"
+
+# def makeSqure(n):
+#   i = 1
+#   while i < n:
+#       yield i * i
+#       i += 1
+# print(list(makeSqure(5)))
+# print makeSqure(5)
+
+# string = ''
+# with open('data') as f:
+    # string = f.readlines()
+# data_list = []
+# for x in string:
+#     y = ''
+#     y = (x.replace(',',"")).lower()
+#     data_list.append(y)
+# for x in data_list:
+#     lis = x.split(" ")
+#     print lis.count('the')
+
+# with open('data', 'a') as f:
+#     f.write("hello kranthi.....\n")
+#     f.write('welcome')
+# with open('data','r') as rd:
+#     data = rd.read()
+#     print data
+
+# def one():
+#     return "One function is executing"
+# def two():
+#     return "two function is executing"
+# def choice_function(args):
+#     switch = {
+#         1:one,
+#         2:two
+#     }
+#     fun =  switch.get(args, lambda : "Invalid Option")
+#     return fun()
+# print choice_function(3)
+
+# import multiprocessing
+# print multiprocessing.cpu_count()
+
+
+import py_compile
+# py_compile.compile('test2.py')
+import sys
+sys.dont_write_bytecode = True
+import copy
+color1 = ['Red', 'Blue']
+color2 = ['White','Black']
+color3 = [color1 , color2]
+# normal copy
+# color4 = color3
+# print (id(color3) == id(color4))        # True - color3 is the same object as color4
+# print (id(color3[0]) == id(color4[0]))  # True - color4[0] is the same object as color3[0]
+
+# shallow copy
+color4 = copy.copy(color3)
+print (id(color3) == id(color4))        # False - color4 is now a new object
+print (id(color3[0]) == id(color4[0]))  # True - The new variable refers to the original variable.
+
+# deep  copy
+color4 = copy.deepcopy(color3)
+print (id(color3) == id(color4))        # False - color4 is now a new object
+print (id(color3[0]) == id(color4[0]))  # False - color4[0] is now a new object
+
+

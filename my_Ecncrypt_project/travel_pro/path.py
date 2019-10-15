@@ -20,62 +20,15 @@ class Graph():
         self.weights[(from_node, to_node)] = weight
         self.weights[(to_node, from_node)] = weight
 
-graph = Graph()
-obj = cm.controller_mod()
-edges = obj.get_loc_distance()
-for edge in edges:
-    graph.add_edge(*edge)
 
 
-# print graph.weights
-# for x,y in loc.items():
-#     print x,y
-#
-# def shortest_path(graph, initial_point, final_point):
-#     current_location = initial_point
-#     visted_location = []
-#     distance = 0
-#     total_distance = 0
-#     location_avaliable = graph.edges
-#     distance_between_locations = graph.weights
-#     print distance_between_locations
-#     location_avaliable = dict(location_avaliable)
-#     for start_loc, avl_loc in location_avaliable.items():
-#         if current_location == start_loc:
-#             for loc in avl_loc:
-#                 pass
-#
-#
-#
-# shortest_path(graph,"A","L")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def dijsktra(graph, initial, end):
+def distance_calculator(graph, initial, end):
     # shortest paths is a dict of nodes
     # whose value is a tuple of (previous node, weight)
     shortest_paths = {initial: (None, 0)}
     current_node = initial
     visited = set()
-
+    path_distance = 0
     while current_node != end:
         visited.add(current_node)
         destinations = graph.edges[current_node]
@@ -95,6 +48,12 @@ def dijsktra(graph, initial, end):
             return "Route Not Possible"
         # next node is the destination with the lowest weight
         current_node = min(next_destinations, key=lambda k: next_destinations[k][1])
+        # next_destinations for distance
+        path_distance = next_destinations
+    path_list = []
+    for value in path_distance.values():
+        path_list.append(value)
+    total_distance = min(path_list)[1]
 
     # Work back through destinations in shortest path
     path = []
@@ -104,9 +63,15 @@ def dijsktra(graph, initial, end):
         current_node = next_node
     # Reverse path
     path = path[::-1]
-    return path
+    final_result = {"path" : path, "distance" : total_distance}
+    return final_result
 
-print dijsktra(graph, 'P', 'N')
+def get_distance_calculator(loc_list, inital_point, final_point):
+    graph = Graph()
+    for edge in loc_list:
+        graph.add_edge(*edge)
+    return distance_calculator(graph, inital_point, final_point)
+
 
 
 
