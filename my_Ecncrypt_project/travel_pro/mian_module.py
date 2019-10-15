@@ -1,9 +1,9 @@
 #Author: Kranthi Kumar K
-#Date: 30/09/2019
+#Date: 10/15/2019
 import logging
 import view_module
 import controller_module
-import threading,time
+import threading, time
 from tabulate import tabulate
 
 logging.basicConfig(filename="travel_log_file.log", format='%(asctime)s %(message)s', filemode='w')
@@ -38,7 +38,9 @@ class main_controller(object):
                 exit()
             else:
                 print "Process is running in back end"
-        return
+        else:
+            print "Invalid Option please try again "
+            self.controller()
     def check_user(self, cus_id):
        return self.control_obj.check_user_name(cus_id)
 

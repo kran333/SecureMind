@@ -1,9 +1,9 @@
 #Author: Kranthi Kumar K
-#Date: 30/09/2019
+#Date: 10/15/2019
 
 import mysql.connector
 import pandas as pd
-import re
+
 con = mysql.connector.connect(
     host="localhost",
     user="root",

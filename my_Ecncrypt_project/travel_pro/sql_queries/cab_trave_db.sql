@@ -38,11 +38,35 @@ INSERT INTO `customer_details` (`customer_name`,`address`,`phone`) VALUES ("Devi
 INSERT INTO `customer_details` (`customer_name`,`address`,`phone`) VALUES ("Brock Mitchell","Latronico","5454767364"),("Flynn Reilly","Palanzano","5436247572"),("Gage Beard","Orai","9097596860"),("Tad Hancock","Paradise","4830759117"),("Leonard Barry","Koersel","6261504725"),("Burton Joyce","Gosselies","6548330382"),("Mufutau Bryant","Pointe-du-Lac","8886781290"),("Ahmed Warren","Hafizabad","2949290362"),("Adrian Booker","Bournemouth","0227408371"),("Jeremy Rice","Wieze","9418970989");
 INSERT INTO `customer_details` (`customer_name`,`address`,`phone`) VALUES ("Finn Waller","New Orleans","6094906141"),("Warren Jarvis","Emines","0883853085"),("Oliver Hutchinson","Gibsons","8234058579"),("Ira Bender","Alajuelita","9222166529"),("Brandon Salazar","North Dum Dum","7947221875"),("Finn Lynch","Henstedt-Ulzburg","0990560345"),("Fuller Carr","Hertford","6751549386"),("Ian Haley","Meeuwen-Gruitrode","7644764185"),("Warren Mathews","Viña del Mar","5807642849"),("Chadwick Kennedy","Varna/Vahrn","1859550875");
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+insert into location_distance values('A','C',15.0),('A','G',13.0),('A','E',13.0),('A','P',15.0);
+insert into location_distance values('B','Z',14.0),('B','H',12.0),('B','I',19.0);
+insert into location_distance values('C','F',14.0),('C','R',16.0),('C','A',15.0),('C','G',13.0),('C','Z',14.0),('C','L',14.0);
+insert into location_distance values('D','J',15.0),('D','L',15.0),('D','M',14.0),('D','Z',17.0);
+insert into location_distance values('E','A',13.0),('E','Z',18.0),('E','K',12.0),('E','Q',15.0),('E','H',10.0);
+insert into location_distance values('F','C',14.0),('F','R',18.0);
+insert into location_distance values('G','A',13.0),('G','C',13.0),('G','Z',11.0);
+insert into location_distance values('H','E',10.0),('H','B',12.0),('H','0',13.0);
+insert into location_distance values('I','B',19.0),('I','O',18.0),('I','Q',16.0),('I','T',18.0),('I','J',16.0);
+insert into location_distance values('J','D',15.0),('J','I',16.0),('J','N',15.0);
+insert into location_distance values('K','E',12.0),('K','X',14.0),('K','O',16.0);
+insert into location_distance values('L','C',14.0),('L','Z',17.0),('L','D',15.0),('L','W',11.0);
+insert into location_distance values('M','D',14.0),('M','U',18.0);
+insert into location_distance values('N','U',11.0),('N','J',15.0),('N','T',16.0);
+insert into location_distance values('O','K',16.0),('O','S',12.0),('O','I',18.0),('O','H',13.0);
+insert into location_distance values('P','A',15.0),('P','X',16.0);
+insert into location_distance values('Q','I',16.0),('Q','E',15.0),('Q','S',14.0),('Q','Y',13.0);
+insert into location_distance values('R','F',18.0),('R','C',16.0);
+insert into location_distance values('S','X',14.0),('S','O',12.0),('S','Q',14.0),('S','Y',14.0);
+insert into location_distance values('T','I',18.0),('T','N',16.0);
+insert into location_distance values('U','M',18.0),('U','V',12.0),('U','N',11.0);
+insert into location_distance values('V','W',16.0),('V','U',12.0);
+insert into location_distance values('W','L',11.0),('W','V',16.0);
+insert into location_distance values('X','P',16.0),('X','K',14.0),('X','S',14.0);
+insert into location_distance values('Y','S',14.0),('Y','Q',13.0);
+insert into location_distance values('Z','G',11.0),('Z','C',14.0),('Z','L',17.0),('Z','D',17.0),('Z','B',14.0),('Z','E',18.0);
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 select (case when cab_id = "" then 'NA' else cab_id end) as cab_id from cab_status where c_status = 'R' ORDER BY update_timestamp limit 1;
-
-
 
 select  coalesce(cab_id,"NA") as cab_id from cab_status where c_status = 'R' ORDER BY update_timestamp limit 1;
 
@@ -82,13 +106,7 @@ desc cabs_fair;
 
 SELECT * from customer_details;
 
-
-
-
 select cab_id,customer_id,price from cabs_fair where cab_id = "cab-2" GROUP BY cab_id,customer_id,price ORDER BY cab_id ;
-
-
-
 
 
 alter table cab_status
@@ -125,8 +143,6 @@ desc customer_details;
 select cd.customer_id,cd.customer_name,cf.cab_id,cf.pickup_loc,cf.drop_loc,cf.date_of_booking,cf.price from
 customer_details cd inner JOIN cabs_fair cf on cd.customer_id = cf.customer_id;
 
-
-
 select customer_id,customer_name from customer_details WHERE customer_id = 155;
 
 select * from cab_status; 
@@ -146,7 +162,7 @@ SELECT location_code from locations ORDER BY location_code;
 select cab_id,current_location from cab_status where c_status = "F";
 
 update travel_cab_db.cab_status set c_status = "F" ,current_location = "J",booking_status = "FREE",
- update_timestamp = now() where cab_id = "cab-4";
+ update_timestamp = now() where cab_id = "cab-5";
  
  desc cab_status;
 
@@ -156,10 +172,17 @@ SELECT cab_id,current_location from cab_status where c_status = 'F' and booking_
 
 ----------------------------------------------------------------------------------------------------------------------------
 show tables;
+SELECT * from cab_details;
 select * from cab_status ;
 select * from customer_details;
 select * from cabs_fair;
 SELECT * from locations ORDER BY location_code;
+
+
+
+
+
+
 ----------------------------------------------------------------------------------------------------------------------------
 
 SELECT cf.cab_id as CAB_ID,cf.customer_id as CUSTOMER_ID,cd.customer_name as CUSTOMER_NAME,loc1.location_name as PICK_UP_LOC,loc2.location_name as DROP_LOC, 
@@ -178,39 +201,20 @@ inner join locations loc2 on cf.drop_loc = loc2.location_code where cf.cab_id = 
 CREATE table location_distance(
 start_loc VARCHAR(10) not null,end_loc varchar(10) not null, distance FLOAT not NULL
 );
+
 SELECT * FROM location_distance ORDER BY start_loc;
 
 
+DELIMITER $$
+CREATE PROCEDURE CABS_procedure(CAB_ID VARCHAR(45),CAB_NAME VARCHAR(45))
+BEGIN
+INSERT INTO cab_details VALUES(CAB_ID,CAB_NAME);
+INSERT INTO cab_status(cab_id,c_status,current_location,create_timestamp,update_timestamp,booking_status) 
+VALUES(CAB_ID,"F","A",now(),now(),"FREE");
+END$$
+DELIMITER ;
 
-
-insert into location_distance values('A','C',5.0),('A','G',3.0),('A','E',3.0),('A','P',5.0);
-insert into location_distance values('B','Z',4.0),('B','H',2.0),('B','I',9.0);
-insert into location_distance values('C','F',4.0),('C','R',6.0),('C','A',5.0),('C','G',3.0),('C','Z',4.0),('C','L',4.0);
-insert into location_distance values('D','J',5.0),('D','L',5.0),('D','M',4.0),('D','Z',7.0);
-insert into location_distance values('E','A',3.0),('E','Z',8.0),('E','K',2.0),('E','Q',15.0),('E','H',10.0);
-insert into location_distance values('F','C',4.0),('F','R',8.0);
-insert into location_distance values('G','A',3.0),('G','C',3.0),('G','Z',1.0);
-insert into location_distance values('H','E',10.0),('H','B',2.0),('H','0',3.0);
-insert into location_distance values('I','B',9.0),('I','O',8.0),('I','Q',6.0),('I','T',8.0),('I','J',6.0);
-insert into location_distance values('J','D',5.0),('J','I',6.0),('J','N',5.0);
-insert into location_distance values('K','E',2.0),('K','X',4.0),('K','O',6.0);
-insert into location_distance values('L','C',4.0),('L','Z',7.0),('L','D',5.0),('L','W',11.0);
-insert into location_distance values('M','D',4.0),('M','U',8.0);
-insert into location_distance values('N','U',1.0),('N','J',5.0),('N','T',6.0);
-insert into location_distance values('O','K',6.0),('O','S',2.0),('O','I',8.0),('O','H',3.0);
-insert into location_distance values('P','A',5.0),('P','X',6.0);
-insert into location_distance values('Q','I',6.0),('Q','E',15.0),('Q','S',4.0),('Q','Y',3.0);
-insert into location_distance values('R','F',8.0),('R','C',6.0);
-insert into location_distance values('S','X',4.0),('S','O',6.0),('S','Q',4.0),('S','Y',4.0);
-insert into location_distance values('T','I',8.0),('T','N',6.0);
-insert into location_distance values('U','M',8.0),('U','V',2.0),('U','N',1.0);
-insert into location_distance values('V','W',16.0),('V','U',2.0);
-insert into location_distance values('W','L',11.0),('W','V',16.0);
-insert into location_distance values('X','P',6.0),('X','K',4.0),('X','S',4.0);
-insert into location_distance values('Y','S',4.0),('Y','Q',3.0);
-insert into location_distance values('Z','G',1.0),('Z','C',4.0),('Z','L',7.0),('Z','D',7.0),('Z','B',4.0),('Z','E',8.0);
-
-
+CALL CABS_procedure("cab-5","MARUTHI_SWIFT_DISIRE");
 
 
 

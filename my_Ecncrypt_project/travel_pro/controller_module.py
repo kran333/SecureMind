@@ -1,9 +1,10 @@
 #Author: Kranthi Kumar K
-#Date: 30/09/2019
+#Date: 10/15/2019
 
 import time, threading
 import database_module as db
 import path
+import random as rad
 lock = threading.Lock()
 
 
@@ -21,11 +22,14 @@ class controller_mod(object):
             print "NO cabs are avalible in your location...!"
             exit()
         else:
-            self.distance = self.get_distance(self.pickup_point, self.drop_point)
+            data = self.get_distance(self.pickup_point, self.drop_point)
+            self.distance = data[0]
+            self.path = data[1]
             self.total_fair = self.get_fair(self.distance)
             self.suspen()
     def get_suspend_time(self, distance):
-        speed = 80.00 / 3.6
+        # speed limit between 60kmhr to 80 kmhr i.e., 15.00 mtsec to 22 mtsec
+        speed = rad.uniform(16.00,22.00)
         distance = distance * 1000
         sus_time = (distance / speed) / 100
         return sus_time
@@ -34,6 +38,7 @@ class controller_mod(object):
         sus_time = self.get_suspend_time(self.distance)
         self.update_cab_status(cab_num=self.cab_num, status="R", loc=self.pickup_point, book_status='BLOCK')
         print str(self.customer_name) + " your cab is Booked,"+" cab number = "+str(self.cab_num)+" it takes " + str(sus_time)+ " sec. to reach the destination"
+        print "Route is ", self.path
         time.sleep(int(sus_time))
         self.update_fair_details()
         self.update_cab_status(cab_num=self.cab_num, status="F", loc=self.drop_point, book_status='FREE')
@@ -41,9 +46,8 @@ class controller_mod(object):
 
     def get_distance(self, start_point, end_point):
         locations_list = self.get_loc_distance()
-        path_dict = path.get_distance_calculator(locations_list, start_point, end_point)
-        print path_dict
-        return path_dict['distance']
+        path_dict = path.get_distance_calculator(locations_list=locations_list, inital_point=start_point, final_point=end_point)
+        return path_dict['distance'],path_dict['path']
 
     def get_fair(self, total_distance_traveled):
         base_fair_per_5km = 100.00
@@ -63,7 +67,6 @@ class controller_mod(object):
 
     def check_cab_avaliability(self):
         cabs = self.db_obj.check_avalible_free_cabs()
-        print cabs
         if len(cabs) != 0:
             for key, value in cabs.items():
                 if value == self.pickup_point:
@@ -71,29 +74,22 @@ class controller_mod(object):
                     return cab_num
             cabs_distance = {}
             for key, value in cabs.items():
-                dis = self.get_distance(self.pickup_point, value)
+                dis = self.get_distance(self.pickup_point, value)[0]
                 cabs_distance[key] = dis
             li = []
-            print cabs_distance
             for value in cabs_distance.values():
                 li.append(value)
-            print li
             li = sorted(li)
             dict_min = {}
             for key, value in cabs_distance.items():
                 if li[0] == value:
                     dict_min[key] = value
             cab_num = ""
-            print dict_min
             distance = 0
             for x, y in dict_min.items():
                 cab_num = str(x)
                 distance = int(y)
-            print "cab_num "+str(cab_num)
-            print "distance "+str(distance)
-
             wait_time = self.get_suspend_time(distance)
-            print "waiting time "+str(wait_time)
             self.update_cab_status(cab_num=str(cab_num), status='F', loc=self.pickup_point, book_status='BLOCK')
             print self.customer_name + " your cab will be arriving soon in " + str(wait_time) + " Sec.., Your Cab Number is "+ str(cab_num)
             time.sleep(float(wait_time+2))
@@ -130,5 +126,5 @@ class controller_mod(object):
             list.append(tuple(x))
         return list
 
-obj = controller_mod()
-obj.get_distance("S","J")
+# obj = controller_mod()
+# print obj.get_distance("S","J")

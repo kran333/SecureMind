@@ -1,5 +1,5 @@
 #Author: Kranthi Kumar K
-#Date: 23/09/2019
+#Date: 10/15/2019
 import mian_module as mm
 import time
 def get_user_inputs():
@@ -16,14 +16,22 @@ def menu_details():
     print "1. Bookcab"
     print "2. check all bills"
     print "3. exit"
-    option = int(input("Enter the choice :"))
+    option = 0
+    try:
+        option = int(input("Enter the choice :"))
+    except Exception as e:
+        pass
+
     return option
 
 def bill_details():
     print "1. Cab_id : "
     print "2. All Cabs : "
     cab_id = ""
-    choice = int(input("Enter your choice : "))
+    try:
+        choice = int(input("Enter your choice : "))
+    except Exception as e:
+        pass
     if choice == 1:
         cab_id  = input("Enter Cab ID : ")
     else:

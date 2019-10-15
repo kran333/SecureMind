@@ -1,5 +1,4 @@
 from collections import defaultdict
-import controller_module as cm
 
 class Graph():
     def __init__(self):
@@ -66,11 +65,11 @@ def distance_calculator(graph, initial, end):
     final_result = {"path" : path, "distance" : total_distance}
     return final_result
 
-def get_distance_calculator(loc_list, inital_point, final_point):
-    graph = Graph()
-    for edge in loc_list:
-        graph.add_edge(*edge)
-    return distance_calculator(graph, inital_point, final_point)
+def get_distance_calculator(locations_list, inital_point, final_point):
+    graph_obj = Graph()
+    for edge in locations_list:
+        graph_obj.add_edge(*edge)
+    return distance_calculator(graph=graph_obj, initial=inital_point, end=final_point)
 
 
 
