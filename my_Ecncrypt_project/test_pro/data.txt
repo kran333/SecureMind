@@ -1,6 +1,0 @@
-You can expand or narrow the scope of your query by including several data columns as part of your search condition.
-For examples, you might want to:
-Search for employees who either have worked more than five years at the company or who hold certain jobs.
-Search for a book that is both published by a specific publisher and pertains to cooking.
-To create a query that searches for values in either of two (or more) columns, you specify an OR
-condition. To create a query that must meet all conditions in two (or more) columns, you specify an AND condition.
