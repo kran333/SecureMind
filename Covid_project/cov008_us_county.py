@@ -1,4 +1,3 @@
-# file_path = "/home/kranthi/BigDataTraining/Datasets/awsproject/us_county.csv"
 
 def get_us_county(spark, file_path, database_name):
     table_name = "us_county"

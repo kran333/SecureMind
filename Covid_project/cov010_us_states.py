@@ -1,4 +1,4 @@
-# file_path = "/home/kranthi/BigDataTraining/Datasets/awsproject/us_states.csv"
+
 def get_contry_codeqs(spark, file_path, database_name):
     table_name = "us_states"
     us_states_df = spark.read \

@@ -1,5 +1,3 @@
-# file_path = "/home/kranthi/BigDataTraining/Datasets/awsproject/us.csv"
-
 def get_us_tbl(spark, file_path, database_name):
     table_name = 'us_tbl'
     us_df = spark.read \

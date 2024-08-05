@@ -1,4 +1,3 @@
-# file_path = "/home/kranthi/BigDataTraining/Datasets/awsproject/states_abv.csv"
 
 def get_states_abv(spark, file_path, database_name):
     table_name = "state_abbreviation"

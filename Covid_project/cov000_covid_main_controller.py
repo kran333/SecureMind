@@ -27,43 +27,43 @@ def main():
 
     # Processing CountryCodeQS data
     file_name = main_file_path+"CountryCodeQS.csv"
-    cov001.get_contry_codeqs(spark_obj, main_file_path, file_name, database_name)
+    cov001.get_contry_codeqs(spark_obj, file_name, database_name)
 
     # Processing County_Population data
     file_name = main_file_path + "County_Population.csv"
-    cov002.get_contry_population(spark_obj, main_file_path, file_name, database_name)
+    cov002.get_contry_population(spark_obj, file_name, database_name)
 
     # Processing Enigma-JHU data
     file_name = main_file_path + "Enigma-JHU.csv"
-    cov003.get_enigma_jhu(spark_obj, main_file_path, file_name, database_name)
+    cov003.get_enigma_jhu(spark_obj, file_name, database_name)
 
     # Processing states_abv data
     file_name = main_file_path + "states_abv.csv"
-    cov004.get_states_abv(spark_obj, main_file_path, file_name, database_name)
+    cov004.get_states_abv(spark_obj, file_name, database_name)
 
     # Processing states_daily data
     file_name = main_file_path + "states_daily.csv"
-    cov005.get_states_daily(spark_obj, main_file_path, file_name, database_name)
+    cov005.get_states_daily(spark_obj, file_name, database_name)
 
     # Processing US data
     file_name = main_file_path + "us.csv"
-    cov006.get_us_tbl(spark_obj, main_file_path, file_name, database_name)
+    cov006.get_us_tbl(spark_obj, file_name, database_name)
 
     # Processing usa-hospital-beds data
     file_name = main_file_path + "usa-hospital-beds.json"
-    cov007.get_usa_hospital_beds(spark_obj, main_file_path, file_name, database_name)
+    cov007.get_usa_hospital_beds(spark_obj, file_name, database_name)
 
     # Processing us_county data
     file_name = main_file_path + "us_county.csv"
-    cov008.get_us_county(spark_obj, main_file_path, file_name, database_name)
+    cov008.get_us_county(spark_obj, file_name, database_name)
 
     # Processing us_daily data
     file_name = main_file_path + "us_daily.csv"
-    cov009.get_us_daily(spark_obj, main_file_path, file_name, database_name)
+    cov009.get_us_daily(spark_obj, file_name, database_name)
 
     # Processing us_states data
     file_name = main_file_path + "us_states.csv"
-    cov010.get_contry_codeqs(spark_obj, main_file_path, file_name, database_name)
+    cov010.get_contry_codeqs(spark_obj, file_name, database_name)
 
 
 if __name__ == "__main__":

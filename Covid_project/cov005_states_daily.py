@@ -1,4 +1,3 @@
-# file_path = "/home/kranthi/BigDataTraining/Datasets/awsproject/states_daily.csv"
 
 def get_states_daily(spark, file_path, database_name):
     table_name = 'states_daily'

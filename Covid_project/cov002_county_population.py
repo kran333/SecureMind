@@ -1,5 +1,3 @@
-# file_path = "/home/kranthi/BigDataTraining/Datasets/awsproject/County_Population.csv"
-
 
 def get_contry_population(spark, file_path, database_name):
     table_name = "county_population"

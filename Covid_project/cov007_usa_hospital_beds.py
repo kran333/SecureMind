@@ -1,5 +1,3 @@
-# file_path = "/home/kranthi/BigDataTraining/Datasets/awsproject/usa-hospital-beds.json"
-
 
 def get_usa_hospital_beds(spark, file_path, database_name):
     table_name = "usa_hospital_beds"

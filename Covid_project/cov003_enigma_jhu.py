@@ -1,6 +1,3 @@
-# file_path = "/home/kranthi/BigDataTraining/Datasets/awsproject/Enigma-JHU.csv"
-
-
 def get_enigma_jhu(spark, file_path, database_name):
     table_name = "enigma_jhu"
     enigma_jhu_df = spark.read \

@@ -1,4 +1,3 @@
-# file_path = "/home/kranthi/BigDataTraining/Datasets/awsproject/CountryCodeQS.csv"
 
 def get_contry_codeqs(spark, file_path, database_name):
     table_name = 'country_code_qs'
