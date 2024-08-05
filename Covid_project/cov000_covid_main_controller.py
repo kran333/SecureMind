@@ -64,3 +64,7 @@ def main():
     # Processing us_states data
     file_name = main_file_path + "us_states.csv"
     cov010.get_contry_codeqs(spark_obj, main_file_path, file_name, database_name)
+
+
+if __name__ == "__main__":
+    main()
