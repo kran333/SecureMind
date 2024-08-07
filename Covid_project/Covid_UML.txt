@@ -1,0 +1,197 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+// Link: https://dbdiagram.io/home
+
+Table country_code_qs {
+  country string
+  alpha_2_code string
+  alpha_3_code string
+  numeric_code integer [primary key]
+  latitude double
+  longitude double
+}
+
+Table county_population {
+  id string [primary key]
+  id2 integer
+  county string
+  state string
+  population_estimate_2018 integer
+}
+
+Table enigma_jhu {
+	fips integer
+	admin2 string
+	province_state string
+	country_region string
+	last_update timestamp
+	latitude double
+	longitude double
+	confirmed integer
+	deaths integer
+	recovered integer
+	active integer
+	combined_key string [primary key]
+}
+
+Table state_abbreviation {
+  state string [primary key]
+  abbreviation string 
+}
+
+Table states_daily {
+  date integer
+  state string
+  positive integer
+  probable_cases integer
+  negative integer
+  pending integer
+  total_test_results_source string
+  total_test_results integer
+  hospitalized_currently integer
+  hospitalized_cumulative integer
+  in_icu_currently integer
+  in_icu_cumulative integer
+  on_ventilator_currently integer
+  on_ventilator_cumulative integer
+  recovered integer
+  last_update_et string
+  date_modified timestamp
+  check_time_et string
+  death integer
+  hospitalized integer
+  hospitalized_discharged integer
+  date_checked timestamp
+  total_tests_viral integer
+  positive_tests_viral integer
+  negative_tests_viral integer
+  positive_cases_viral integer
+  death_confirmed integer
+  death_probable integer
+  total_test_encounters_viral integer
+  total_tests_people_viral integer
+  total_tests_antibody integer
+  positive_tests_antibody integer
+  negative_tests_antibody integer
+  total_tests_people_antibody integer
+  positive_tests_people_antibody integer
+  negative_tests_people_antibody integer
+  total_tests_people_antigen integer
+  positive_tests_people_antigen integer
+  total_tests_antigen integer
+  positive_tests_antigen integer
+  fips integer
+  positive_increase integer
+  negative_increase integer
+  total integer
+  total_test_results_increase integer
+  pos_neg integer
+  data_quality_grade string
+  death_increase integer
+  hospitalized_increase integer
+  hash string [primary key]
+  commercial_score integer
+  negative_regular_score integer
+  negative_score integer
+  positive_score integer
+  score integer
+  grade string
+}
+
+Table us_tbl {
+  positive integer
+  negative integer
+  pending integer
+  hospitalized_currently integer
+  hospitalized_cumulative integer
+  in_icu_currently integer
+  in_icu_cumulative integer
+  on_ventilator_currently integer
+  on_ventilator_cumulative integer
+  recovered integer
+  hash string [primary key]
+  last_modified timestamp
+  death integer
+  hospitalized integer
+  total integer
+  total_test_results integer
+  pos_neg integer
+  notes string
+}
+
+Table usa_hospital_beds {
+  adult_icu_beds long
+  avg_ventilator_usage double
+  bed_utilization double
+  cnty_fips string
+  county_name string
+  fips string
+  hospital_name string
+  hospital_type string
+  hq_address string
+  hq_address1 string
+  hq_city string
+  hq_state string
+  hq_zip_code string
+  num_icu_beds long
+  num_licensed_beds long
+  num_staffed_beds long
+  object_id long [primary key]
+  pedi_icu_beds double
+  potential_increase_in_bed_capac long
+  state_fips string
+  state_name string
+  latitude double
+  longtitude double
+}
+
+Table us_county {
+  date date
+  county string
+  state string
+  fips integer
+  cases integer
+  deaths integer
+}
+
+Table us_daily {
+  date integer
+  states integer
+  positive integer
+  negative integer
+  pending integer
+  hospitalized_currently integer
+  hospitalized_cumulative integer
+  in_icu_currently integer
+  in_icu_cumulative integer
+  on_ventilator_currently integer
+  on_ventilator_cumulative integer
+  date_checked string
+  death integer
+  hospitalized integer
+  total_test_results integer
+  last_modified string
+  recovered string
+  total integer
+  pos_neg integer
+  death_increase integer
+  hospitalized_increase integer
+  negative_increase integer
+  positive_increase integer
+  total_test_results_increase integer
+  hash string [primary key]
+}
+
+Table us_states {
+  date date
+  state string
+  fips integer
+  cases integer
+  deaths integer
+ }
+
+Ref: state_abbreviation.state > county_population.state // many-to-one
+Ref: state_abbreviation.state > states_daily.state
+Ref: state_abbreviation.state > us_county.state
+Ref: state_abbreviation.state > us_states.state
+Ref: state_abbreviation.state > usa_hospital_beds.hq_state
